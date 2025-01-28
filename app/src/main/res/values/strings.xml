@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BooksClient</string>
+    <string name="fetch_books">Fetch Books</string>
 </resources>
