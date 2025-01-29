@@ -39,23 +39,42 @@
         android:layout_marginTop="16dp"
         android:text="@string/book_description" />
 
-    <Button
-        android:id="@+id/buyLinkButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/buy_now"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
 
-    <Button
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/favorite"
+            style="@style/Widget.MaterialComponents.Button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buyLinkButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/buy_now"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.Button"/>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back"
         android:layout_marginTop="16dp"
         android:layout_gravity="center"
-        android:visibility="visible" />
+        android:visibility="visible"
+        style="@style/Widget.MaterialComponents.Button"/>
 
     <ProgressBar
         android:id="@+id/detailsProgressBar"

@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Fetch books button
+        // Buttons
         findViewById(R.id.fetchBooksButton).setOnClickListener(v -> loadMoreBooks());
     }
 
@@ -116,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Save the current offset and other necessary state
         outState.putInt("currentOffset", currentOffset);
+    }
+
+    private void toggleFavorites() {
+
     }
 
     private void loadMoreBooks() {

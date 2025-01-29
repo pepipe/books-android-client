@@ -8,4 +8,10 @@
     <string name="book_description">This is the description of the book…</string>
     <string name="buy_now">Buy Now</string>
     <string name="back">Back</string>
+    <string name="show_favorites">Show Favorites</string>
+    <string name="stop_favorites">Stop Favorites</string>
+    <string name="favorite">Favorite</string>
+    <string name="unfavorite">Unfavorite</string>
+    <string name="enter_your_query">Enter your query</string>
+    <string name="default_query">iOS</string>
 </resources>

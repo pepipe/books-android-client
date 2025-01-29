@@ -5,23 +5,51 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
+    android:layout_marginTop="20dp"
     tools:context=".MainActivity">
+
+    <!-- Input Text Field with default text "iOS" -->
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/queryInputField"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/default_query"
+        android:textSize="18sp"
+        android:hint="@string/enter_your_query"
+        android:padding="12dp"
+        android:background="?attr/selectableItemBackground" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+    <androidx.appcompat.widget.AppCompatToggleButton
+        android:id="@+id/favoritesButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="18sp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fetchBooksButton"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_gravity="top|center"
-        android:layout_marginTop="20dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="@string/fetch_books"
         android:textSize="18sp" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/booksRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/fetchBooksButton"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="100dp"
         android:scrollbars="vertical"
         android:scrollbarSize="12dp"/>
 
