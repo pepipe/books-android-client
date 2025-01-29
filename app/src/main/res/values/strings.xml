@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">BooksClient</string>
     <string name="fetch_books">Fetch Books</string>
+    <string name="book_thumbnail">Book Thumbnail</string>
+    <string name="book_image">Book Image</string>
+    <string name="book_title">Book Title</string>
+    <string name="author_name">Author Name</string>
+    <string name="book_description">This is the description of the book…</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="back">Back</string>
 </resources>
