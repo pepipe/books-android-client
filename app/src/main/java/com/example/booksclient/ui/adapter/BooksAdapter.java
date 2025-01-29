@@ -1,5 +1,6 @@
 package com.example.booksclient.ui.adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.booksclient.R;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
@@ -20,13 +24,21 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book, parent, false);
         return new BookViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        holder.bookTitle.setText(books.get(position));
+        String title = books.get(position);
+
+        // Limit to 5 words (you can adjust this value)
+        String[] words = title.split(" ");
+        if (words.length > 5) {
+            title = TextUtils.join(" ", Arrays.copyOfRange(words, 0, 5)) + "...";
+        }
+
+        holder.bookTitle.setText(title);
     }
 
     @Override
@@ -44,7 +56,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
         public BookViewHolder(View itemView) {
             super(itemView);
-            bookTitle = itemView.findViewById(android.R.id.text1);
+            bookTitle = itemView.findViewById(R.id.bookTitle);
         }
     }
 }

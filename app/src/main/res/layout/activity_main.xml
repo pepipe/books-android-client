@@ -23,5 +23,5 @@
         android:layout_below="@id/fetchBooksButton"
         android:layout_marginTop="70dp"
         android:scrollbars="vertical"
-        />
+        android:scrollbarSize="12dp"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
