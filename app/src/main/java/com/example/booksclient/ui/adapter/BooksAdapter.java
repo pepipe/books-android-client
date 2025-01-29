@@ -2,6 +2,7 @@ package com.example.booksclient.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.booksclient.ui.activity.BookDetailsActivity;
 import com.example.booksclient.R;
 import com.example.booksclient.model.domain.Book;
@@ -45,12 +47,18 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             title = TextUtils.join(" ", Arrays.copyOfRange(words, 0, 5)) + "...";
         }
 
+        //load book data
         holder.bookTitle.setText(title);
-        //TODO set with the actual data
-        holder.bookThumbnail.setImageResource(R.drawable.baseline_menu_book_20);
-//        Glide.with(context)
-//                .load(book.getImageUrl())  // Use URL or resource ID here
-//                .into(holder.bookThumbnail);
+        String thumbnailUrl = book.getThumbnailUrl();
+        Uri uri = Uri.parse(thumbnailUrl);
+        if (thumbnailUrl != null && !thumbnailUrl.isEmpty()) {
+            Glide.with(context)
+                    .load(uri)
+                    .placeholder(R.drawable.baseline_menu_book_20)
+                    .into(holder.bookThumbnail);
+        } else {
+            holder.bookThumbnail.setImageResource(R.drawable.baseline_menu_book_20);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, BookDetailsActivity.class);

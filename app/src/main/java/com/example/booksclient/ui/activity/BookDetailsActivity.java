@@ -3,13 +3,16 @@ package com.example.booksclient.ui.activity;
 import static android.view.View.VISIBLE;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.booksclient.MainActivity;
 import com.example.booksclient.R;
 import com.example.booksclient.model.domain.Book;
@@ -34,6 +37,17 @@ public class BookDetailsActivity extends AppCompatActivity {
         Button backButton = findViewById(R.id.backButton);
 
         // Set data to views
+        String imageUrl = book.getImageUrl();
+        Uri uri = Uri.parse(imageUrl);
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            Glide.with(this)
+                    .load(uri)
+                    .placeholder(R.drawable.baseline_menu_book_black_48)
+                    .into(bookImage);
+        } else {
+            bookImage.setImageResource(R.drawable.baseline_menu_book_black_48);
+        }
+
         bookTitle.setText(book.getTitle());
         bookAuthor.setText(book.getAuthor());
         bookDescription.setText(book.getDescription());
@@ -46,7 +60,14 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         buyLinkButton.setVisibility(VISIBLE);
         buyLinkButton.setOnClickListener(v -> {
-            // Handle buy action here (e.g., open a link)
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(book.getBuyUrl()));
+
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                // Handle case where no app can handle the intent (optional)
+                Toast.makeText(this, "No browser app found", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

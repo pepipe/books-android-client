@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int FETCH_BOOKS_MAX_RESULTS = 20;
+    private static final int FETCH_BOOKS_MAX_RESULTS = 5;
     private int currentOffset = 0;
     private boolean isLoading = false;
     private RecyclerView booksRecyclerView;
@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 boolean isScrollVisible = recyclerView.canScrollVertically(-1) || recyclerView.canScrollVertically(1);
                 if (!isScrollVisible) return;
 
-                if (!recyclerView.canScrollVertically(1) && !isLoading) {
-                    loadMoreBooks();
-                }
+//                if (!recyclerView.canScrollVertically(1) && !isLoading) {
+//                    loadMoreBooks();
+//                }
             }
         });
 
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String testNative = NativeApi.testNative();
                 Log.i("JNI_TEST", "Result from native: " + testNative);
-                String jsonResponse = NativeApi.fetchBooks("android", currentOffset, FETCH_BOOKS_MAX_RESULTS);
+                String jsonResponse = NativeApi.fetchBooks("ios", currentOffset, FETCH_BOOKS_MAX_RESULTS);
                 List<Book> newBooks = BooksParser.parseBooksJson(jsonResponse);
 
                 // Update UI on the main thread
