@@ -1,7 +1,10 @@
 package com.example.booksclient;
 
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -11,13 +14,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.booksclient.model.Book;
-import com.example.booksclient.ui.BookViewModel;
+import com.example.booksclient.model.domain.Book;
+import com.example.booksclient.model.parsers.BooksParser;
+import com.example.booksclient.ui.viewmodel.BookViewModel;
 import com.example.booksclient.ui.adapter.BooksAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
     private static final int FETCH_BOOKS_MAX_RESULTS = 20;
@@ -26,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView booksRecyclerView;
     private BooksAdapter booksAdapter;
     private BookViewModel bookViewModel;
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,20 +116,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadMoreBooks() {
+        if(isLoading) return;
+
         isLoading = true;
 
-        // Simulate fetching books (replace with JNI call or API call)
-        new Thread(() -> {
+        // Execute the background task
+        executorService.submit(() -> {
             try {
-                Thread.sleep(1000); // Simulate network delay
-
-                // Generate dummy data for books
-                List<Book> newBooks = new ArrayList<>();
-                for (int i = 0; i < FETCH_BOOKS_MAX_RESULTS; i++) {
-                    int bookNumber = (currentOffset + i + 1);
-                    Book book = new Book("Book" + bookNumber, "Author" + bookNumber, "Description of Book" + bookNumber, "", "", "");
-                    newBooks.add(book);
-                }
+                String testNative = NativeApi.testNative();
+                Log.i("JNI_TEST", "Result from native: " + testNative);
+                String jsonResponse = NativeApi.fetchBooks("android", currentOffset, FETCH_BOOKS_MAX_RESULTS);
+                List<Book> newBooks = BooksParser.parseBooksJson(jsonResponse);
 
                 // Update UI on the main thread
                 runOnUiThread(() -> {
@@ -131,10 +134,10 @@ public class MainActivity extends AppCompatActivity {
                     currentOffset += FETCH_BOOKS_MAX_RESULTS;
                     isLoading = false;
                 });
-            } catch (InterruptedException e) {
-                runOnUiThread(() -> Toast.makeText(this, "Failed to load books", Toast.LENGTH_SHORT).show());
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(this, "Failed to load books: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                 isLoading = false;
             }
-        }).start();
+        });
     }
 }

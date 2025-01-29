@@ -12,4 +12,5 @@ public class NativeApi {
     public static native void removeFromFavorites(String bookId);
     public static native boolean isFavorite(String bookId);
     public static native List<String> getFavoriteBooks();
+    public static native String testNative();
 }

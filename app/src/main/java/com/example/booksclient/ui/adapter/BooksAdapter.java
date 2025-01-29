@@ -12,9 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.booksclient.ui.BookDetailsActivity;
+import com.example.booksclient.ui.activity.BookDetailsActivity;
 import com.example.booksclient.R;
-import com.example.booksclient.model.Book;
+import com.example.booksclient.model.domain.Book;
 
 import java.util.Arrays;
 import java.util.List;
