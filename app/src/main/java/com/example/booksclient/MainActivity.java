@@ -3,8 +3,12 @@ package com.example.booksclient;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,17 +32,31 @@ public class MainActivity extends AppCompatActivity {
     private static final int FETCH_BOOKS_MAX_RESULTS = 5;
     private int currentOffset = 0;
     private boolean isLoading = false;
+    private EditText queryInputText;
     private RecyclerView booksRecyclerView;
     private ProgressBar globalProgressBar;
     private BooksAdapter booksAdapter;
     private BookViewModel bookViewModel;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private String lastQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        queryInputText = findViewById(R.id.queryInputField);
+        queryInputText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    loadMoreBooks();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         globalProgressBar = findViewById(R.id.globalProgressBar);
         bookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
@@ -50,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         booksRecyclerView.setAdapter(booksAdapter);
 
         bookViewModel.getBooks().observe(this, books -> {
-            if (books != null) {
+            if (books != null && !books.isEmpty()) {
                 int currentBookCount = booksAdapter.getItemCount();
                 List<Book> newBooks = books.subList(currentBookCount, books.size());
                 booksAdapter.addBooks(newBooks);
@@ -125,15 +143,21 @@ public class MainActivity extends AppCompatActivity {
     private void loadMoreBooks() {
         if(isLoading) return;
 
+        if(lastQuery != null && !lastQuery.equals(String.valueOf(queryInputText.getText()))){
+            bookViewModel.clearBooks();
+            booksAdapter.clearBooks();
+            currentOffset = 0;
+        }
+        lastQuery = String.valueOf(queryInputText.getText());
         showLoading();
         isLoading = true;
 
         // Execute the background task
         executorService.submit(() -> {
             try {
-                String testNative = NativeApi.testNative();
-                Log.i("JNI_TEST", "Result from native: " + testNative);
-                String jsonResponse = NativeApi.fetchBooks("ios", currentOffset, FETCH_BOOKS_MAX_RESULTS);
+                String query = String.valueOf(queryInputText.getText());
+                query = query.isEmpty() ? "iOS" : query;
+                String jsonResponse = NativeApi.fetchBooks(query, currentOffset, FETCH_BOOKS_MAX_RESULTS);
                 List<Book> newBooks = BooksParser.parseBooksJson(jsonResponse);
 
                 // Update UI on the main thread

@@ -27,4 +27,8 @@ public class BookViewModel extends ViewModel {
             booksLiveData.setValue(currentBooks);
         }
     }
+
+    public void clearBooks(){
+        booksLiveData.setValue(new ArrayList<>());
+    }
 }

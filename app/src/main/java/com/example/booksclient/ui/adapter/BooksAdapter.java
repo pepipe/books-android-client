@@ -80,6 +80,10 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         }
     }
 
+    public void clearBooks() {
+        books.clear();
+    }
+
     public static class BookViewHolder extends RecyclerView.ViewHolder {
         TextView bookTitle;
         ImageView bookThumbnail;
