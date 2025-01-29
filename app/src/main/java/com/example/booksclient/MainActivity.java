@@ -1,8 +1,6 @@
 package com.example.booksclient;
 
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -62,16 +60,14 @@ public class MainActivity extends AppCompatActivity {
                 boolean isScrollVisible = recyclerView.canScrollVertically(-1) || recyclerView.canScrollVertically(1);
                 if (!isScrollVisible) return;
 
-//                if (!recyclerView.canScrollVertically(1) && !isLoading) {
-//                    loadMoreBooks();
-//                }
+                if (!recyclerView.canScrollVertically(1) && !isLoading) {
+                    loadMoreBooks();
+                }
             }
         });
 
         // Fetch books button
-        findViewById(R.id.fetchBooksButton).setOnClickListener(v -> {
-            loadMoreBooks();
-        });
+        findViewById(R.id.fetchBooksButton).setOnClickListener(v -> loadMoreBooks());
     }
 
     @Override
