@@ -24,4 +24,12 @@
         android:layout_marginTop="70dp"
         android:scrollbars="vertical"
         android:scrollbarSize="12dp"/>
+
+    <ProgressBar
+        android:id="@+id/globalProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="@android:style/Widget.ProgressBar.Large"
+        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

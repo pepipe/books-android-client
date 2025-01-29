@@ -3,6 +3,8 @@ package com.example.booksclient;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private int currentOffset = 0;
     private boolean isLoading = false;
     private RecyclerView booksRecyclerView;
+    private ProgressBar globalProgressBar;
     private BooksAdapter booksAdapter;
     private BookViewModel bookViewModel;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        globalProgressBar = findViewById(R.id.globalProgressBar);
         bookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
 
         //Setup RecyclerView
@@ -47,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
         bookViewModel.getBooks().observe(this, books -> {
             if (books != null) {
-                booksAdapter.addBooks(books);
+                int currentBookCount = booksAdapter.getItemCount();
+                List<Book> newBooks = books.subList(currentBookCount, books.size());
+                booksAdapter.addBooks(newBooks);
+                hideLoading();
             }
         });
 
@@ -114,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadMoreBooks() {
         if(isLoading) return;
 
+        showLoading();
         isLoading = true;
 
         // Execute the background task
@@ -135,5 +143,13 @@ public class MainActivity extends AppCompatActivity {
                 isLoading = false;
             }
         });
+    }
+
+    private void showLoading() {
+        globalProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoading() {
+        globalProgressBar.setVisibility(View.GONE);
     }
 }

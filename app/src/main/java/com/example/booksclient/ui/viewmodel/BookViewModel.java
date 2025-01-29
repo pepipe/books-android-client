@@ -10,21 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookViewModel extends ViewModel {
-    private MutableLiveData<List<Book>> books = new MutableLiveData<>();
+    private MutableLiveData<List<Book>> booksLiveData = new MutableLiveData<>();
 
     public BookViewModel() {
-        books.setValue(new ArrayList<>());
+        booksLiveData.setValue(new ArrayList<>());
     }
 
     public LiveData<List<Book>> getBooks() {
-        return books;
+        return booksLiveData;
     }
 
     public void addBooks(List<Book> newBooks) {
-        List<Book> currentBooks = books.getValue();
+        List<Book> currentBooks = booksLiveData.getValue();
         if (currentBooks != null) {
             currentBooks.addAll(newBooks);
-            books.setValue(currentBooks);
+            booksLiveData.setValue(currentBooks);
         }
     }
 }

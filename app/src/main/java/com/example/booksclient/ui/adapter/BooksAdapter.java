@@ -73,9 +73,11 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     }
 
     public void addBooks(List<Book> newBooks) {
-        int previousSize = books.size();
-        books.addAll(newBooks);
-        notifyItemRangeInserted(previousSize, books.size());
+        if (newBooks != null && !newBooks.isEmpty()) {
+            int previousSize = books.size();
+            books.addAll(newBooks); // Adds new books to the existing list
+            notifyItemRangeInserted(previousSize, newBooks.size()); // Notify the adapter
+        }
     }
 
     public static class BookViewHolder extends RecyclerView.ViewHolder {
