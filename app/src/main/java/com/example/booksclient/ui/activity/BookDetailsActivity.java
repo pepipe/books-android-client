@@ -70,10 +70,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         bookTitle.setText(book.getTitle());
         bookAuthor.setText(book.getAuthor());
         bookDescription.setText(book.getDescription());
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(BookDetailsActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
+        backButton.setOnClickListener(v -> finish());
 
         hideLoading();
 
