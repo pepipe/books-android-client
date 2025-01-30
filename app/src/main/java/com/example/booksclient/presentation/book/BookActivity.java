@@ -2,7 +2,10 @@ package com.example.booksclient.presentation.book;
 
 import android.app.Activity;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.content.pm.ActivityInfo;
+=======
+>>>>>>> f3fba76ebe3b3ba71cd17efd7aea36ea2289046d
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,7 +38,10 @@ public class BookActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+=======
+>>>>>>> f3fba76ebe3b3ba71cd17efd7aea36ea2289046d
         binding = ActivityBookBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
