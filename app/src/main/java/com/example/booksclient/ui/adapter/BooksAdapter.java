@@ -42,9 +42,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         Book book = books.get(position);
 
         String title = book.getTitle();
-        String[] words = title.split(" ");
-        if (words.length > 5) {
-            title = TextUtils.join(" ", Arrays.copyOfRange(words, 0, 5)) + "...";
+        int maxLength = 22;  // Set max length according to your layout constraints
+        if (title.length() > maxLength) {
+            title = title.substring(0, maxLength) + "...";
         }
 
         //load book data

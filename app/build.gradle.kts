@@ -26,7 +26,14 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
+        debug {
+            isDebuggable = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -39,6 +46,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    dependenciesInfo {
+        includeInApk = true
+    }
+    ndkVersion = "28.0.12916984 rc3"
+    buildToolsVersion = "35.0.1"
 }
 
 dependencies {

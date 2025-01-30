@@ -11,6 +11,7 @@ public class Book implements Serializable {
     private final String thumbnailUrl;
     private final String buyUrl;
     private String bookJson;
+    private boolean isFavorite;
 
     public Book(String id, String title, String author, String description, String imageUrl, String thumbnailUrl, String buyUrl){
         this.id = id;
@@ -20,6 +21,10 @@ public class Book implements Serializable {
         this.imageUrl = imageUrl;
         this.thumbnailUrl = thumbnailUrl;
         this.buyUrl = buyUrl;
+    }
+
+    public String getId(){
+        return id;
     }
 
     public String getTitle() {
@@ -50,7 +55,19 @@ public class Book implements Serializable {
         return buyUrl != null && !buyUrl.isEmpty();
     }
 
+    public String getBookJson(){
+        return bookJson;
+    }
+
     public void setBookJson(String bookJson) {
         this.bookJson = bookJson;
+    }
+
+    public boolean isBookFavorite(){
+        return isFavorite;
+    }
+
+    public void setBookFavorite(boolean isFavorite){
+        this.isFavorite = isFavorite;
     }
 }

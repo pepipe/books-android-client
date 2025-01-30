@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -22,9 +22,12 @@ import com.example.booksclient.model.domain.Book;
 import com.example.booksclient.model.parsers.BooksParser;
 import com.example.booksclient.ui.viewmodel.BookViewModel;
 import com.example.booksclient.ui.adapter.BooksAdapter;
+import com.example.booksclient.utils.FavoriteBooksHelper;
+import com.example.booksclient.utils.LogHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,18 +36,23 @@ public class MainActivity extends AppCompatActivity {
     private int currentOffset = 0;
     private boolean isLoading = false;
     private EditText queryInputText;
+    private ToggleButton favoritesButton;
     private RecyclerView booksRecyclerView;
     private ProgressBar globalProgressBar;
     private BooksAdapter booksAdapter;
     private BookViewModel bookViewModel;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private String lastQuery;
+    private boolean favoritesFilterOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        String favoritesPath = Objects.requireNonNull(getExternalFilesDir(null)).getAbsolutePath() + "/favorites.txt";
+        NativeApi.setFavoritesFilePath(favoritesPath);
 
         queryInputText = findViewById(R.id.queryInputField);
         queryInputText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -57,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        favoritesButton = findViewById(R.id.favoritesButton);
+        favoritesButton.setText(getString(R.string.show_favorites));
+        favoritesButton.setOnClickListener(v -> toggleFavorites());
 
         globalProgressBar = findViewById(R.id.globalProgressBar);
         bookViewModel = new ViewModelProvider(this).get(BookViewModel.class);
@@ -137,16 +149,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toggleFavorites() {
-
+        favoritesFilterOn = !favoritesFilterOn;
+        favoritesButton.setText(favoritesFilterOn ?
+                getString(R.string.hide_favorites) :
+                getString(R.string.show_favorites));
+        clearBooks();
+        if(favoritesFilterOn){
+            loadFavoriteBooks();
+        }
     }
 
     private void loadMoreBooks() {
-        if(isLoading) return;
+        if(isLoading || favoritesFilterOn) return;
 
         if(lastQuery != null && !lastQuery.equals(String.valueOf(queryInputText.getText()))){
-            bookViewModel.clearBooks();
-            booksAdapter.clearBooks();
-            currentOffset = 0;
+            clearBooks();
         }
         lastQuery = String.valueOf(queryInputText.getText());
         showLoading();
@@ -171,6 +188,40 @@ public class MainActivity extends AppCompatActivity {
                 isLoading = false;
             }
         });
+    }
+
+    private void loadFavoriteBooks() {
+        if(isLoading || !favoritesFilterOn) return;
+
+        showLoading();
+        isLoading = true;
+
+        executorService.submit(() -> {
+            try {
+                List<String> favoritesBooks = NativeApi.getFavoriteBooks();
+                if (favoritesBooks.isEmpty()) {
+                    LogHelper.w("Warning: No favorite books found.");
+                }
+                LogHelper.i(favoritesBooks.toString());
+                String favoriteJson = FavoriteBooksHelper.combineJsonStrings(favoritesBooks);
+                List<Book> newBooks = BooksParser.parseBooksJson(favoriteJson);
+
+                runOnUiThread(() -> {
+                    bookViewModel.addBooks(newBooks);
+                    isLoading = false;
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(this, "Failed to load favorites books: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                isLoading = false;
+            }
+        });
+
+    }
+
+    private void clearBooks() {
+        bookViewModel.clearBooks();
+        booksAdapter.clearBooks();
+        currentOffset = 0;
     }
 
     private void showLoading() {

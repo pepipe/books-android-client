@@ -9,7 +9,7 @@
     <string name="buy_now">Buy Now</string>
     <string name="back">Back</string>
     <string name="show_favorites">Show Favorites</string>
-    <string name="stop_favorites">Stop Favorites</string>
+    <string name="hide_favorites">Hide Favorites</string>
     <string name="favorite">Favorite</string>
     <string name="unfavorite">Unfavorite</string>
     <string name="enter_your_query">Enter your query</string>

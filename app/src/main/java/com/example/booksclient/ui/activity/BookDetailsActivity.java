@@ -16,11 +16,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.booksclient.MainActivity;
+import com.example.booksclient.NativeApi;
 import com.example.booksclient.R;
 import com.example.booksclient.model.domain.Book;
+import com.google.android.material.button.MaterialButton;
 
 public class BookDetailsActivity extends AppCompatActivity {
     private ProgressBar detailsProgressBar;
+    private MaterialButton favoriteButton;
+    private Book book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +35,17 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         showLoading();
         // Get data passed from the adapter
-        Book book = (Book) getIntent().getSerializableExtra("BOOK");
+        book = (Book) getIntent().getSerializableExtra("BOOK");
         if (book == null) return;
+        boolean isBookFavorite = NativeApi.isFavorite(book.getId());
+        book.setBookFavorite(isBookFavorite);
+
+        //Initialize favorite button
+        favoriteButton = findViewById(R.id.favoriteButton);
+        favoriteButton.setText(book.isBookFavorite() ?
+                getString(R.string.unfavorite) :
+                getString(R.string.favorite));
+        favoriteButton.setOnClickListener(v -> toggleFavoriteBook());
 
         // Initialize views
         ImageView bookImage = findViewById(R.id.bookImage);
@@ -77,6 +90,18 @@ public class BookDetailsActivity extends AppCompatActivity {
                 Toast.makeText(this, "No browser app found", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void toggleFavoriteBook() {
+        if (book.isBookFavorite()) {
+            //unfavorite book
+            NativeApi.removeFromFavorites(book.getId());
+            favoriteButton.setText(getString(R.string.favorite));
+        } else {
+            //favorite book
+            NativeApi.addToFavorites(book.getId(), book.getBookJson());
+            favoriteButton.setText(getString(R.string.unfavorite));
+        }
     }
 
     private void showLoading() {
