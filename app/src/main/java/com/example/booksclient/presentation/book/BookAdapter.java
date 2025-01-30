@@ -1,36 +1,38 @@
-package com.example.booksclient.ui.adapter;
+package com.example.booksclient.presentation.book;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.booksclient.ui.activity.BookDetailsActivity;
 import com.example.booksclient.R;
-import com.example.booksclient.model.domain.Book;
+import com.example.booksclient.domain.model.Book;
+import com.example.booksclient.presentation.booksDetails.BookDetailsActivity;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
+public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
     private final List<Book> books;
     private final Context context;
+    private final ActivityResultLauncher<Intent> resultLauncher;
 
-    public BooksAdapter(List<Book> books, Context context){
+    public BookAdapter(List<Book> books, Context context, ActivityResultLauncher<Intent> resultLauncher) {
         this.books = books;
         this.context = context;
+        this.resultLauncher = resultLauncher;
     }
 
-    @NonNull
+        @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book, parent, false);
@@ -63,7 +65,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, BookDetailsActivity.class);
             intent.putExtra("BOOK", book);
-            context.startActivity(intent);
+            resultLauncher.launch(intent);
         });
     }
 
@@ -73,15 +75,17 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     }
 
     public void addBooks(List<Book> newBooks) {
-        if (newBooks != null && !newBooks.isEmpty()) {
-            int previousSize = books.size();
-            books.addAll(newBooks); // Adds new books to the existing list
-            notifyItemRangeInserted(previousSize, newBooks.size()); // Notify the adapter
-        }
+        int previousSize = books.size();
+        books.addAll(newBooks);
+        notifyItemRangeInserted(previousSize, newBooks.size());
     }
 
     public void clearBooks() {
-        books.clear();
+        int size = books.size();
+        if (size > 0) {
+            books.clear();
+            notifyItemRangeRemoved(0, size);
+        }
     }
 
     public static class BookViewHolder extends RecyclerView.ViewHolder {

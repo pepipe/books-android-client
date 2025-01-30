@@ -1,4 +1,4 @@
-package com.example.booksclient.model.api;
+package com.example.booksclient.data.network.model;
 
 public class BookResponse {
     String id;

@@ -1,4 +1,4 @@
-package com.example.booksclient.utils;
+package com.example.booksclient.mapper;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -11,7 +11,7 @@ public class FavoriteBooksHelper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static String combineJsonStrings(List<String> jsonStrings) {
+    public static String createBookResponse(List<String> jsonStrings) {
         Gson gson = new Gson();
         JsonArray itemsArray = new JsonArray();
 

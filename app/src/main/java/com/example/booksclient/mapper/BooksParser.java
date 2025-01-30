@@ -1,9 +1,8 @@
-package com.example.booksclient.model.parsers;
+package com.example.booksclient.mapper;
 
-import com.example.booksclient.model.api.BookResponse;
-import com.example.booksclient.model.api.GoogleBooksResponse;
-import com.example.booksclient.model.domain.Book;
-import com.example.booksclient.model.mappers.BookMapper;
+import com.example.booksclient.data.network.model.BookResponse;
+import com.example.booksclient.data.network.model.GoogleBooksResponse;
+import com.example.booksclient.domain.model.Book;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
