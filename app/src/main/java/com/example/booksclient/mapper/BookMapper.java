@@ -1,7 +1,7 @@
-package com.example.booksclient.model.mappers;
+package com.example.booksclient.mapper;
 
-import com.example.booksclient.model.api.BookResponse;
-import com.example.booksclient.model.domain.Book;
+import com.example.booksclient.data.network.model.BookResponse;
+import com.example.booksclient.domain.model.Book;
 import com.google.gson.Gson;
 
 public class BookMapper {
@@ -27,6 +27,7 @@ public class BookMapper {
 
         return book;
     }
+
 
     private static String convertHttpToHttps(String url) {
         if (url != null && url.startsWith("http://")) {

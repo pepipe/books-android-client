@@ -1,4 +1,4 @@
-package com.example.booksclient.model.domain;
+package com.example.booksclient.domain.model;
 
 import java.io.Serializable;
 

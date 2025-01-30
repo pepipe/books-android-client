@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:layout_marginTop="20dp"
-    tools:context=".MainActivity">
+    tools:context=".presentation.book.BookActivity">
 
     <!-- Input Text Field with default text "iOS" -->
     <androidx.appcompat.widget.AppCompatEditText
@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/fetch_books"
+        android:visibility="gone"
         android:textSize="18sp" />
     </LinearLayout>
 
@@ -54,7 +55,7 @@
         android:scrollbarSize="12dp"/>
 
     <ProgressBar
-        android:id="@+id/globalProgressBar"
+        android:id="@+id/loading_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
