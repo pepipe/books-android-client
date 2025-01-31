@@ -28,7 +28,6 @@ public class BookMapper {
         return book;
     }
 
-
     private static String convertHttpToHttps(String url) {
         if (url != null && url.startsWith("http://")) {
             return url.replace("http://", "https://");

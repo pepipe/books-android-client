@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Book implements Serializable {
     private final String id;
     private final String title;
-    private final String author;
+    private final String authors;
     private final String description;
     private final String imageUrl;
     private final String thumbnailUrl;
@@ -13,10 +13,10 @@ public class Book implements Serializable {
     private String bookJson;
     private boolean isFavorite;
 
-    public Book(String id, String title, String author, String description, String imageUrl, String thumbnailUrl, String buyUrl){
+    public Book(String id, String title, String authors, String description, String imageUrl, String thumbnailUrl, String buyUrl){
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.authors = authors;
         this.description = description;
         this.imageUrl = imageUrl;
         this.thumbnailUrl = thumbnailUrl;
@@ -31,8 +31,8 @@ public class Book implements Serializable {
         return title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthors() {
+        return authors;
     }
 
     public String getDescription() {

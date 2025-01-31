@@ -8,8 +8,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BooksParser {
-    private BooksParser() {
+public class BookParser {
+    private BookParser() {
         throw new IllegalStateException("Utility class");
     }
 

@@ -16,7 +16,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters += listOf("arm64-v8a", "x86_64")
+            abiFilters += listOf("arm64-v8a")
         }
     }
 
@@ -31,22 +31,15 @@ android {
         viewBinding = true
     }
 
-    buildTypes {
-        debug {
-            isDebuggable = true
-        }
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
+
     dependenciesInfo {
         includeInApk = true
     }
@@ -62,6 +55,9 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.glide)
     testImplementation(libs.junit)
+    testImplementation(libs.core.testing)
+    testImplementation("androidx.lifecycle:lifecycle-runtime:2.8.7")
+    testImplementation("androidx.lifecycle:lifecycle-common-java8:2.8.7")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

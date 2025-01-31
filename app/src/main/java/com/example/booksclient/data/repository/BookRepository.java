@@ -5,7 +5,7 @@ import android.os.Looper;
 
 import com.example.booksclient.NativeApi;
 import com.example.booksclient.domain.model.Book;
-import com.example.booksclient.mapper.BooksParser;
+import com.example.booksclient.mapper.BookParser;
 import com.example.booksclient.mapper.FavoriteBooksHelper;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class BookRepository {
         executorService.submit(() -> {
             try {
                 String jsonResponse = NativeApi.fetchBooks(query, offset, maxResults);
-                List<Book> newBooks = BooksParser.parseBooksJson(jsonResponse);
+                List<Book> newBooks = BookParser.parseBooksJson(jsonResponse);
                 callback.onBooksFetched(newBooks);
             } catch (Exception e) {
                 callback.onError(e);
@@ -32,7 +32,7 @@ public class BookRepository {
             try{
                 List<String> favoriteBooks = NativeApi.getFavoriteBooks();
                 String favoriteBooksJson = FavoriteBooksHelper.createBookResponse(favoriteBooks);
-                List<Book> newBooks = BooksParser.parseBooksJson(favoriteBooksJson);
+                List<Book> newBooks = BookParser.parseBooksJson(favoriteBooksJson);
                 callback.onBooksFetched(newBooks);
             } catch (Exception e) {
                 callback.onError(e);

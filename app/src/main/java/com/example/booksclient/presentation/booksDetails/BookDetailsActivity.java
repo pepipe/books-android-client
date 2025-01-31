@@ -74,7 +74,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         }
 
         binding.bookTitle.setText(book.getTitle());
-        binding.bookAuthor.setText(book.getAuthor());
+        binding.bookAuthor.setText(book.getAuthors());
         binding.bookDescription.setText(book.getDescription());
     }
 
