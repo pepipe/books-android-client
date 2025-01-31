@@ -14,7 +14,7 @@ In the detail view, the user can also favorite or “unfavorite” a book. This 
 
 Clicking on the Buy link should open the link on safari/chrome.
 
-This app must be build fallowing this rules:
+This app must be built fallowing this rules:
 1. All the API integrations must be built using C++.
     1. The app should call this api method and receive a callback with the API result (a json object or
 an error).
@@ -25,40 +25,9 @@ It is very important show your experience with testing;
 Nice to have: Favorites in local storage using C++
 
 ## Project Setup - Android
-Minimum Android SDK set for the project is 26 (Android 8), Target SDK is 35 (Android 15).
+The minimum Android SDK set for the project is 26 (Android 8), Target SDK is 35 (Android 15).
 
 ## Project Architecture
-### File Structure
-com.example.booksclient
-├── data
-│   ├── network
-│   │   └── model
-│   │       ├── BookResponse.java
-│   │       ├── GoogleBooksResponse.java
-│   │       ├── ImageLinksResponse.java
-│   │       ├── SaleInfoResponse.java
-│   │       └── VolumeInfoResponse.java
-│   └── repository
-│       └── BookRepository.java
-├── domain
-│   └── model
-│       └── Book.java
-├── mapper
-│   ├── BookMapper.java
-│   ├── BooksParser.java
-│   └── FavoriteBooksHelper.java
-├── presentation
-│   ├── book
-│   │   ├── BookActivity.java
-│   │   ├── BookAdapter.java
-│   │   └── BookViewModel.java
-│   └── booksDetails
-│       ├── BookDetailsActivity.java
-│       └── BookDetailsViewModel.java
-├── utils
-│   └── LogHelper.java
-└── NativeApi.java
-
 This project follows a clean architecture. I try to achieve the following points:
 
 1. Separation of Concerns:
@@ -80,7 +49,7 @@ This project follows a clean architecture. I try to achieve the following points
 5. View Binding:
 5.1. Improves code readability and reduces the need for findViewById calls.
 
-### Improvements and Considerations:
+## Improvements and Considerations:
 Since this is a test, some things didn't get the deserved attention. 
 Error handling, there is some in the project but not always give information to end user. 
 
