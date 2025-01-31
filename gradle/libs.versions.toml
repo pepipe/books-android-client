@@ -1,24 +1,33 @@
 [versions]
 agp = "8.8.0"
 junit = "4.13.2"
+junitJupiterParams = "5.8.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+lifecycleCommonJava8 = "2.8.7"
 material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
+mockitoCore = "5.15.2"
+mockitoInline = "5.2.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junitJupiterParams" }
+lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycleCommonJava8" }
+lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "lifecycleCommonJava8" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 gson = { module = "com.google.code.gson:gson", version = "2.12.0" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version = "4.16.0" }
 core-testing = { group = "androidx.arch.core", name = "core-testing", version = "2.2.0" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

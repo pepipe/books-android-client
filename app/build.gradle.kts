@@ -56,8 +56,11 @@ dependencies {
     implementation(libs.glide)
     testImplementation(libs.junit)
     testImplementation(libs.core.testing)
-    testImplementation("androidx.lifecycle:lifecycle-runtime:2.8.7")
-    testImplementation("androidx.lifecycle:lifecycle-common-java8:2.8.7")
+    testImplementation(libs.lifecycle.runtime)
+    testImplementation(libs.lifecycle.common.java8)
+    testImplementation(libs.junit.jupiter.params)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
